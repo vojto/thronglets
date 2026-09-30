@@ -37,6 +37,7 @@ import numpy as np
 from scipy.signal import butter, lfilter
 
 SAMPLE_RATE = 44100
+VOLUME = 0.5
 
 # (F1, F2) formants of human vowels, in Hz. They get scaled up per creature.
 VOWELS = {
@@ -259,7 +260,7 @@ def save(stereo, path):
 def play(stereo):
     with tempfile.NamedTemporaryFile(suffix=".wav") as file:
         save(stereo, file.name)
-        subprocess.run(["afplay", file.name], check=True)
+        subprocess.run(["afplay", "-v", str(VOLUME), file.name], check=True)
 
 
 def preset(mood, rng):
@@ -308,7 +309,7 @@ def hook(args, rng):
     creature.rng = rng
     path = tempfile.mktemp(suffix=".wav")
     save(creature.phrase(feelings), path)
-    subprocess.Popen(["sh", "-c", f"afplay '{path}'; rm '{path}'"], start_new_session=True)
+    subprocess.Popen(["sh", "-c", f"afplay -v {VOLUME} '{path}'; rm '{path}'"], start_new_session=True)
 
 
 def last_message_from_transcript(path):
