@@ -37,7 +37,7 @@ import numpy as np
 from scipy.signal import butter, lfilter
 
 SAMPLE_RATE = 44100
-VOLUME = 0.5
+VOLUME = 0.35
 
 # (F1, F2) formants of human vowels, in Hz. They get scaled up per creature.
 VOWELS = {
